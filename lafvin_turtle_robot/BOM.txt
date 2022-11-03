@@ -1,0 +1,13 @@
+Bill of material for FutureDay Robot:
+
+All parts sourced from AliExpress
+
+1x LAFVIN "Smart Turtle Robot Car Kit"
+1x Bluetooth BLE 4.x Module (with CC2541 chip)
+1x 0.96 128x64 I2C OLED Display with SSD1306 chip
+1x LiitoKala Lii-202 LiIon charger (USB version without power supply)
+2x 18650 LiIon cell (due to security and performance reasons, get _genuine_ cells. Recommended are NCR18650B from Aliexpress "liitokala Factory Store")
+1x CR2025 battery for IR remote
+1x USB stick to put SW and firmware on it (optional)
+
+
