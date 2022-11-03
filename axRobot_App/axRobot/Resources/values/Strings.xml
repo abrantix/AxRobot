@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="forward">forward</string>
+	<string name="back">back</string>
+	<string name="left">left</string>
+	<string name="right">right</string>
+	<string name="stop">stop</string>
+	<string name="a1">1</string>
+	<string name="a2">2</string>
+	<string name="a3">3</string>
+	<string name="a4">S</string>
+	<string name="a6">N</string>
+  <string name="plus">+</string>
+  <string name="minus">-</string>
+  <string name="oa">))))</string>
+  <string name="speed">Speed</string>
+  <string name="sensor">Sensor</string>
+  <string name="sensorL">l</string>
+  <string name="sensorF">f</string>
+  <string name="sensorR">r</string>
+  <string name="app_name">axRobot</string>
+</resources>

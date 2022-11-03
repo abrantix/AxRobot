@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:background="#ffffffff">
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <ImageView
+                android:src="@drawable/abrantix"
+                android:layout_width="150dp"
+                android:layout_span="6" />
+        </TableRow>
+        <TableRow>
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/sensorLeftButton"
+                android:layout_column="0"
+				android:layout_span="2"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="@string/sensorL" />
+            <Button
+                android:id="@+id/sensorFrontButton"
+				android:layout_column="2"
+		        android:layout_span="2"
+                android:layout_width="100dp"       
+				android:layout_height="50dp"
+                android:text="@string/sensorF" />
+			 <Button
+                android:id="@+id/sensorRightButton"
+				android:layout_column="3"
+                android:layout_span="2"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="@string/sensorR" />
+        </TableRow>
+		<TableRow>
+
+        </TableRow>
+        <TableRow>
+			            <Button
+                android:id="@+id/minusButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="@string/minus" />
+
+            <Button
+                android:id="@+id/forwardButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_column="2"
+                android:layout_span="2"
+                android:text="@string/forward" />
+
+			 <Button
+                android:id="@+id/plusButton"
+                android:layout_column="5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="@string/plus" />
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/leftButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_column="0"
+                android:layout_span="2"
+                android:text="@string/left" />
+            <Button
+                android:id="@+id/stopButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_column="2"
+                android:layout_span="2"
+                android:text="@string/stop" />
+            <Button
+                android:id="@+id/rightButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_column="4"
+                android:layout_span="2"
+                android:text="@string/right" />
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_column="2"
+                android:layout_span="2"
+                android:text="@string/back" />
+        </TableRow>
+		 <TableRow>
+        </TableRow>
+		<TableRow>
+            <Button
+                android:id="@+id/action1Button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_column="0"
+                android:text="@string/a1" />
+            <Button
+                android:id="@+id/action2Button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="@string/a2" />
+            <Button
+                android:id="@+id/action3Button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="@string/a3" />
+            <Button
+                android:id="@+id/action4Button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="@string/a4" />
+			<Button
+                android:id="@+id/action6Button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="@string/a6" />
+			<Button
+                android:id="@+id/oaButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="@string/oa" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
