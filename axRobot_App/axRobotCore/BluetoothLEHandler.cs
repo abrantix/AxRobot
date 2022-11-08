@@ -6,6 +6,7 @@ using Plugin.BLE.Abstractions.Contracts;
 using System.Threading;
 using System.Reflection;
 using System.Drawing;
+using System.CodeDom;
 
 namespace axRobot.Core
 {
@@ -21,7 +22,6 @@ namespace axRobot.Core
 
         SemaphoreSlim connectSemaphoreSlim = new SemaphoreSlim(1);
         SemaphoreSlim ioSemaphoreSlim = new SemaphoreSlim(1);
-        SemaphoreSlim scanningSemaphoreSlim = new SemaphoreSlim(1);
         public BluetoothLEHandler()
 		{
             IsConnected = false;
@@ -59,31 +59,23 @@ namespace axRobot.Core
 
         public async Task StartScanningForDevices()
         {
-            try
+            if (!IsScanning)
             {
-                await scanningSemaphoreSlim.WaitAsync();
-                if (!IsScanning)
-                {
-                    IsScanning = true;
-                    await CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync();
-                }
-            }
-            finally
-            {
-                scanningSemaphoreSlim.Release();
+                IsScanning = true;
+                await CrossBluetoothLE.Current.Adapter.StartScanningForDevicesAsync();
             }
         }
 
         private void Adapter_ScanTimeoutElapsed(object sender, EventArgs e)
         {
-            IsScanning = false;
             if (CrossBluetoothLE.Current.Adapter.IsScanning)
             {
                 CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync().Wait();
             }
+            IsScanning = false;
             if (SelectedDevice == null)
             {
-                StartScanningForDevices().Wait();
+                Xamarin.Essentials.MainThread.InvokeOnMainThreadAsync(StartScanningForDevices);
             }
         }
 
@@ -97,22 +89,30 @@ namespace axRobot.Core
 
         private static string GetNativeDeviceAddress(IDevice device)
         {
-            PropertyInfo propInfo = device.NativeDevice.GetType().GetProperty("Address");
-            string address = (string)propInfo.GetValue(device.NativeDevice, null);
-            return address;
+            if (device.AdvertisementRecords.Any(x => x.Type == Plugin.BLE.Abstractions.AdvertisementRecordType.ManufacturerSpecificData))
+            {
+                return BitConverter.ToString(device.AdvertisementRecords.Where(x => x.Type == Plugin.BLE.Abstractions.AdvertisementRecordType.ManufacturerSpecificData).First().Data);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void Adapter_DeviceDiscovered(object sender, Plugin.BLE.Abstractions.EventArgs.DeviceEventArgs e)
         {
             if (e.Device.Name != null && SelectedDevice == null && IsBleDeviceOfInterest(e.Device.Name) 
-                    //always reconnect to the same BLE device if there was any connection before
+                    //always reconnect to the _same_ BLE device if there was any connection before
                 && (string.IsNullOrEmpty(LastSeenDeviceAddress) || GetNativeDeviceAddress(e.Device) == LastSeenDeviceAddress)
                )
             {
-                SelectedDevice = e.Device;
-                LastSeenDeviceAddress = GetNativeDeviceAddress(SelectedDevice);
-                CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync().Wait();
-                IsScanning = false;
+                LastSeenDeviceAddress = GetNativeDeviceAddress(e.Device);
+                if (LastSeenDeviceAddress != null)
+                {
+                    SelectedDevice = e.Device;
+                    CrossBluetoothLE.Current.Adapter.StopScanningForDevicesAsync().Wait();
+                    IsScanning = false;
+                }
             }
         }
 
@@ -160,22 +160,37 @@ namespace axRobot.Core
 
         public async Task Disconnect()
         {
-            if (SelectedDevice != null)
+            bool gotSemaphore = false;
+            try
             {
-                if (!CrossBluetoothLE.Current.Adapter.IsScanning)
+                gotSemaphore = await connectSemaphoreSlim.WaitAsync(5000);
+                if (gotSemaphore)
                 {
-                    await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(SelectedDevice);
+                    if (SelectedDevice != null)
+                    {
+                        if (!CrossBluetoothLE.Current.Adapter.IsScanning)
+                        {
+                            await CrossBluetoothLE.Current.Adapter.DisconnectDeviceAsync(SelectedDevice);
+                        }
+                    }
+                    SelectedDevice = null;
+                    SelectedCharacteristic = null;
+                    IsConnected = false;
+                    IsScanning = false;
                 }
             }
-            SelectedDevice = null;
-            SelectedCharacteristic = null;
-            IsConnected = false;
-            IsScanning = false;
+            finally
+            {
+                if (gotSemaphore)
+                {
+                    connectSemaphoreSlim.Release();
+                }
+            }
         }
 
         public async Task<bool> ConnectAndSendChar(char c)
         {
-            bool gotSemaphore = false;
+             bool gotSemaphore = false;
             try
             {
                 gotSemaphore = await connectSemaphoreSlim.WaitAsync(5000);
