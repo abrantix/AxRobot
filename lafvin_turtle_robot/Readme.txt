@@ -6,24 +6,28 @@ Erforderliche Hardware Anpassungen (im assembly manual nicht beschrieben):
 - Um das Display direkt unter dem Ultraschallsensor (HC-SR04) zu montieren, die vier Pins des Ultraschallmodules sorgfältig um 90° biegen.
 - Das Display kann direkt unterhalb des Ultraschallsensors mit Kabelbindern befestigt werden
 - Die Kabel an den beiden Motoren müssen angelötet werden. Es wird empfohlen, die Lötstellen mit etwas Schrumpfschlauch sichern.
+- Um die Batteriebox zu montieren, statt der mitgelieferten Panhead Schrauben 4 Stück Senkkopf M3x6 verwenden
 
 --------------------
 
 Verdrahtung:
 
-- Roboter gemäss "AxRobot_wiring.png" verdrahten - die Farben der Drähte darf natürlich von dem Diagramm abweichen.
+- Roboter gemäss "AxRobot_wiring.png" verdrahten - die Farben der Drähte darf natürlich von dem Diagramm abweichen. Siehe auch RobotFirmware/src/Pinout.h
 - Falls der linke und rechte Motor vertauscht sind, Pins 8/9 mit 10/A2 tauschen
 - Falls ein Motor verkehrt läuft, die Pins 8 mit 9 resp. 10 mit A2 tauschen
 
 --------------------
 
-Software Arduino:
-
-- Arduino SDK von http://arduino.cc installieren
+Arduino Firmware:
+- Visual Studio Code plus PlatformIO installieren
 - CH340G USB to Serial Treiber installieren, sofern notwendig: http://www.wch.cn/download/CH341SER_EXE.html
-- axRobot.ino mittels Arduino Software kompilieren und auf dem Arduino UNO installieren
-- Xamarin Studio (Starter genügt) herunterladen und installieren.
-- axRobot.sln kompilieren und auf das Android Mobile kopieren.
+- axRobot.ino mittels PlatformIO kompilieren und auf dem Arduino UNO installieren
+
+--------------------
+
+Mobile App Arduino/iOS:
+- Wir verwenden Visual Studio für das Kompilieren der Mobile Applikation (iOS, Android). Xamarin Studio (Starter müsste genügen) sollte auch funktionieren.
+- axRobot.sln kompilieren und auf das Mobile kopieren.
 
 --------------------
 

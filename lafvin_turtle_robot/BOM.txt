@@ -7,6 +7,7 @@ All parts sourced from AliExpress
 1x 0.96 128x64 I2C OLED Display with SSD1306 chip
 1x LiitoKala Lii-202 LiIon charger (USB version without power supply)
 2x 18650 LiIon cell (due to security and performance reasons, get _genuine_ cells. Recommended are NCR18650B from Aliexpress "liitokala Factory Store")
+4x Countersunk M3x6 screws to secure the battery holder (pan head won't fit)
 1x CR2025 battery for IR remote
 1x USB stick to put SW and firmware on it (optional)
 
