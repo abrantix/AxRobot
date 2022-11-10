@@ -15,10 +15,10 @@
 //Motor 
 #define motorEnR          5
 #define motorEnL          6
-#define motorL1           8
-#define motorL2           9
-#define motorR1           10
-#define motorR2           A2
+#define motorL2           8
+#define motorL1           9
+#define motorR2           10
+#define motorR1           A2
 
 //Line sensors
 #define PIN_LEFT_SENSOR   2

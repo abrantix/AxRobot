@@ -30,7 +30,6 @@ void irRemoteControl();
 void obstacleAvoidance();
 void lineFollower();
 void danceSalsa();
-void funAction();
 void lookLeft();
 void lookRight();
 void lookForward();
@@ -41,6 +40,7 @@ void squareDrive();
 
 void setup()
 {
+  Serial.begin(115200);
   Wire.begin();
   Wire.setClock(400000L);
   display.begin(&Adafruit128x64, SCREEN_I2C_ADDRESS);
@@ -75,8 +75,7 @@ void setup()
     BtSerial.read();
   }
   display.set2X();
-  display.println(F("Mir is"));
-  display.println(F("gliich :)"));
+  display.println(F(UserName));
 }
 
 void obstacleAvoidanceDetection()        // measure 3 angles (0.90.179)
@@ -133,7 +132,6 @@ void loop()
 }
 
 void action3(){
-  funAction();
 }
   
 //perform a simple dance
@@ -143,85 +141,14 @@ void action1()
   setCurrentSpeed(MaxSpeed);
 
   //go forward for 1 second
-  forward();
-  delay(1000);
-
-  //rotate right for 1.5 second
-  rotateRight();
-  delay(1500);
-
-  //run backward for 1 second
+  turnRight90();
   backward();
-  delay(1000);
+  delay(2000);
 
-  //turn left for 1 second
-  left();
-  delay(1500);
-
+  display.println(F("Ich habe"));
+  display.println(F("einparkiert!"));
   //stop motors
   stop();
-}
-
-//perform a simple dance
-void funAction()
-{
-  display.println(F(UserName));
-  delay(3000);
-  display.clear();
-
-  display.println(F("Essen?"));
-  delay(3000);
-  display.clear();
-  
-  lookRight();
-  delay(2000);
-  
-  lookLeft(); 
-  delay(2000);
-
-  lookForward(); 
-  delay(4000);
-
-  display.println(F("Gefunden?"));
-  delay(3000);
-  display.clear();
-  
-  turnLeft90();
-  stop();
-  
-  //go forward for 1 second
-  forward();
-  delay(1000);
-
-  backward();
-  delay(500);
-  stop();
-  
-  display.set2X();
-  display.println(F("Doch nicht"));
-  delay(2000);
-  display.clear();
-
-  turnRight90();
-  stop();
-
-  display.println(F("Hunger"));
-  delay(3000);
-  display.clear();
-
-  display.set1X();
-  display.println(F("Bitcoins"));
-  delay(3000);
-  display.clear();
-  
-  display.set2X();
-  display.println(F("Gefunden!!"));
-  delay(3000);
-  display.clear();
-  display.set1X();
-
-  danceSalsa();
-  
 }
 
 void action2()
@@ -264,27 +191,35 @@ void irRemoteControl()
 {
   if (irrecv.decode())
   {
-    BtSerial.println(irrecv.decodedIRData.decodedRawData, HEX);
+    Serial.print(F("IR command received:"));
+    Serial.print(irrecv.decodedIRData.command, HEX);
+    Serial.print(' ');
+    Serial.println(irrecv.decodedIRData.command >> 8, HEX);
     bool enableRemoteControlMode = true;
-    switch (irrecv.decodedIRData.decodedRawData)
+    switch (irrecv.decodedIRData.command)
     {
       case IR_Go:
+        Serial.println(F("IR_Go"));
         forward();
         break;
 
       case IR_Back:
+        Serial.println(F("IR_Back"));
         backward();
         break;
 
       case IR_Left:
+        Serial.println(F("IR_Left"));
         left();
         break;
 
       case IR_Right:
+        Serial.println(F("IR_Right"));
         right();
         break;
 
       case IR_Stop:
+      Serial.println(F("IR_Stop"));
         stop();
         break;
 
